@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* warm graphite / carbon — a chosen ramp, not the framework neutrals */
+    --bg: 30 9% 5%;
+    --surface: 30 7% 8%;
+    --raised: 28 6% 11%;
+    --line: 30 6% 17%;
+    --ink: 40 14% 92%;
+    --faint: 35 7% 58%;
+    /* ember accent — heated-metal, used sparingly. not violet, not cyan-neon */
+    --ember: 18 90% 55%;
+    --ember-soft: 22 75% 62%;
+  }
+
+  * {
+    border-color: hsl(var(--line));
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: hsl(var(--bg));
+    color: hsl(var(--ink));
+    font-feature-settings: "ss01" 1, "cv01" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: hsl(var(--ember) / 0.25);
+    color: hsl(var(--ink));
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--bg));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--line));
+    border: 3px solid hsl(var(--bg));
+    border-radius: 0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--faint) / 0.5);
+  }
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-[1320px] px-5 sm:px-8;
+  }
+
+  /* monospace technical label, the kind a real design system uses */
+  .kicker {
+    @apply font-mono text-[11px] uppercase tracking-[0.22em] text-faint;
+  }
+
+  .rule {
+    @apply h-px w-full bg-line;
+  }
+
+  /* hairline blueprint grid — texture, not a glow */
+  .blueprint {
+    background-image:
+      linear-gradient(to right, hsl(var(--line) / 0.6) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--line) / 0.6) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .blueprint-fine {
+    background-image:
+      linear-gradient(to right, hsl(var(--line) / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--line) / 0.5) 1px, transparent 1px);
+    background-size: 26px 26px;
+  }
+
+  /* film grain via tiny svg noise — adds a tactile, human texture */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* liquid-glass panel: masked conic rim + frosted fill (technique from 21st.dev) */
+  .glass-rim {
+    position: relative;
+    background: hsl(var(--ink) / 0.03);
+    backdrop-filter: blur(14px);
+  }
+  .glass-rim::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from 130deg at 55% 40%,
+      hsl(var(--ink) / 0.45),
+      hsl(var(--ink) / 0.05) 90deg,
+      hsl(var(--ink) / 0.35) 180deg,
+      hsl(var(--ink) / 0.04) 270deg,
+      hsl(var(--ink) / 0.45)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* engineered panel surface */
+  .panel {
+    background:
+      linear-gradient(180deg, hsl(var(--ink) / 0.025), transparent 40%),
+      hsl(var(--surface));
+    border: 1px solid hsl(var(--line));
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors duration-200;
+  }
+
+  /* primary = machined ember slab with layered (non-glow) depth shadow */
+  .btn-ember {
+    @apply btn px-5 py-3 text-sm text-carbon-950;
+    background: linear-gradient(180deg, hsl(var(--ember-soft)), hsl(var(--ember)));
+    box-shadow:
+      inset 0 1px 0 hsl(40 100% 90% / 0.4),
+      0 1px 2px hsl(20 80% 10% / 0.4),
+      0 8px 16px -8px hsl(18 90% 40% / 0.5);
+    font-weight: 600;
+  }
+  .btn-ember:hover {
+    background: linear-gradient(180deg, hsl(20 92% 60%), hsl(18 92% 52%));
+  }
+
+  /* secondary = brushed steel */
+  .btn-steel {
+    @apply btn px-5 py-3 text-sm text-ink;
+    background: linear-gradient(180deg, hsl(var(--raised)), hsl(var(--surface)));
+    border: 1px solid hsl(var(--line));
+    box-shadow: inset 0 1px 0 hsl(var(--ink) / 0.08);
+  }
+  .btn-steel:hover {
+    border-color: hsl(var(--faint) / 0.4);
+    background: linear-gradient(180deg, hsl(28 6% 13%), hsl(30 7% 9%));
+  }
+
+  .tag {
+    @apply inline-flex items-center gap-1.5 rounded-sm border border-line bg-ink/[0.02] px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-faint;
+  }
+
+  /* in-view reveal toggled by an IntersectionObserver class, not a motion lib */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .mask-x {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 9%,
+      #000 91%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 9%,
+      #000 91%,
+      transparent
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
