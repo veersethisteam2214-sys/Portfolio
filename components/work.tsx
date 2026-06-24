@@ -24,7 +24,8 @@ export function Work() {
           </Reveal>
         </div>
 
-        <div className="mt-14 border-t border-line">
+        <div className="relative mt-14 border-t border-line lg:pl-10">
+          <span className="trace-rail bottom-0 left-0 top-0 hidden lg:block" />
           {projects.map((p, i) => {
             const flip = i % 2 === 1;
             return (

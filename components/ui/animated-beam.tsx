@@ -26,6 +26,9 @@ export interface AnimatedBeamProps {
   endXOffset?: number;
   endYOffset?: number;
   className?: string;
+  /** number of glowing energy particles travelling the beam */
+  particles?: number;
+  particleColor?: string;
 }
 
 export function AnimatedBeam({
@@ -46,6 +49,8 @@ export function AnimatedBeam({
   endXOffset = 0,
   endYOffset = 0,
   className,
+  particles = 0,
+  particleColor = "#f7a04a",
 }: AnimatedBeamProps) {
   const id = useId();
   const [pathD, setPathD] = useState("");
@@ -95,17 +100,35 @@ export function AnimatedBeam({
   ]);
 
   return (
-    <svg
-      fill="none"
-      width={svgDimensions.width}
-      height={svgDimensions.height}
-      xmlns="http://www.w3.org/2000/svg"
-      className={cn(
-        "pointer-events-none absolute left-0 top-0 transform-gpu stroke-2",
-        className
-      )}
-      viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
-    >
+    <>
+      {pathD &&
+        particles > 0 &&
+        Array.from({ length: particles }).map((_, p) => (
+          <span
+            key={p}
+            aria-hidden
+            className="pointer-events-none absolute left-0 top-0 h-1.5 w-1.5 rounded-[50%]"
+            style={{
+              offsetPath: `path('${pathD}')`,
+              background: particleColor,
+              boxShadow: `0 0 8px 1px ${particleColor}`,
+              animation: `particle-move ${duration}s linear ${
+                delay + (p * duration) / particles
+              }s infinite`,
+            }}
+          />
+        ))}
+      <svg
+        fill="none"
+        width={svgDimensions.width}
+        height={svgDimensions.height}
+        xmlns="http://www.w3.org/2000/svg"
+        className={cn(
+          "pointer-events-none absolute left-0 top-0 transform-gpu stroke-2",
+          className
+        )}
+        viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
+      >
       <path
         d={pathD}
         stroke={pathColor}
@@ -145,6 +168,7 @@ export function AnimatedBeam({
           <stop offset="100%" stopColor={gradientStopColor} stopOpacity="0" />
         </motion.linearGradient>
       </defs>
-    </svg>
+      </svg>
+    </>
   );
 }

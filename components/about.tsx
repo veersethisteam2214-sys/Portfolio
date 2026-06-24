@@ -12,12 +12,14 @@ const points = [
 
 export function About() {
   return (
-    <section id="about" className="relative border-t border-line py-24 sm:py-32">
-      <div className="wrap grid grid-cols-1 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+    <section id="about" className="relative overflow-hidden border-t border-line py-24 sm:py-32">
+      <div className="aurora opacity-30" />
+      <div className="wrap relative grid grid-cols-1 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         {/* portrait with 3D tilt */}
         <Reveal>
-          <div className="[perspective:1200px]">
-            <TiltCard className="glass-rim rounded-xl p-2">
+          <div className="relative [perspective:1200px]">
+            <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[50%] bg-ember/[0.08] blur-3xl" />
+            <TiltCard className="beam-border glass-rim rounded-[20px] p-2">
               <Portrait />
               <div className="flex items-center justify-between px-2 pb-1 pt-3">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-ink">

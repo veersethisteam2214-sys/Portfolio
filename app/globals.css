@@ -2,18 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* animatable angle for the traveling border beam */
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 @layer base {
   :root {
-    /* warm graphite / carbon — a chosen ramp, not the framework neutrals */
+    /* warm graphite / carbon base */
     --bg: 30 9% 5%;
     --surface: 30 7% 8%;
     --raised: 28 6% 11%;
     --line: 30 6% 17%;
     --ink: 40 14% 92%;
     --faint: 35 7% 58%;
-    /* ember accent — heated-metal, used sparingly. not violet, not cyan-neon */
+    /* warm ember accent (human / commercial sections) */
     --ember: 18 90% 55%;
-    --ember-soft: 22 75% 62%;
+    --ember-soft: 22 85% 62%;
+    /* cool ion accent (system / AI sections) */
+    --ion: 200 95% 56%;
+    --ion-soft: 190 90% 62%;
   }
 
   * {
@@ -47,7 +57,6 @@
   ::-webkit-scrollbar-thumb {
     background: hsl(var(--line));
     border: 3px solid hsl(var(--bg));
-    border-radius: 0;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--faint) / 0.5);
@@ -59,7 +68,6 @@
     @apply mx-auto w-full max-w-[1320px] px-5 sm:px-8;
   }
 
-  /* monospace technical label, the kind a real design system uses */
   .kicker {
     @apply font-mono text-[11px] uppercase tracking-[0.22em] text-faint;
   }
@@ -68,22 +76,23 @@
     @apply h-px w-full bg-line;
   }
 
-  /* hairline blueprint grid — texture, not a glow */
+  /* ── textures ─────────────────────────────────────────── */
   .blueprint {
     background-image:
       linear-gradient(to right, hsl(var(--line) / 0.6) 1px, transparent 1px),
       linear-gradient(to bottom, hsl(var(--line) / 0.6) 1px, transparent 1px);
     background-size: 64px 64px;
   }
-
   .blueprint-fine {
     background-image:
       linear-gradient(to right, hsl(var(--line) / 0.5) 1px, transparent 1px),
       linear-gradient(to bottom, hsl(var(--line) / 0.5) 1px, transparent 1px);
     background-size: 26px 26px;
   }
-
-  /* film grain via tiny svg noise — adds a tactile, human texture */
+  .dotfield {
+    background-image: radial-gradient(hsl(var(--line) / 0.9) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
   .grain::after {
     content: "";
     position: absolute;
@@ -93,7 +102,7 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* liquid-glass panel: masked conic rim + frosted fill (technique from 21st.dev) */
+  /* ── glass / metal surfaces ───────────────────────────── */
   .glass-rim {
     position: relative;
     background: hsl(var(--ink) / 0.03);
@@ -121,7 +130,6 @@
     pointer-events: none;
   }
 
-  /* engineered panel surface */
   .panel {
     background:
       linear-gradient(180deg, hsl(var(--ink) / 0.025), transparent 40%),
@@ -129,25 +137,82 @@
     border: 1px solid hsl(var(--line));
   }
 
-  .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors duration-200;
+  /* traveling light around a border (Magic UI border-beam idea) */
+  .beam-border {
+    position: relative;
+  }
+  .beam-border::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: conic-gradient(
+      from var(--beam-angle),
+      transparent 0deg,
+      transparent 250deg,
+      hsl(var(--ion)) 310deg,
+      hsl(var(--ember)) 345deg,
+      transparent 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: beam-rotate 5s linear infinite;
+    pointer-events: none;
   }
 
-  /* primary = machined ember slab with layered (non-glow) depth shadow */
+  /* ── backgrounds for sections (depth, not flat black) ── */
+  .aurora {
+    position: absolute;
+    inset: -20%;
+    pointer-events: none;
+    filter: blur(60px);
+    opacity: 0.5;
+    background:
+      radial-gradient(35% 45% at 25% 30%, hsl(var(--ember) / 0.35), transparent 70%),
+      radial-gradient(30% 40% at 78% 25%, hsl(var(--ion) / 0.3), transparent 70%),
+      radial-gradient(40% 45% at 60% 75%, hsl(280 40% 40% / 0.18), transparent 70%);
+    animation: aurora-drift 18s ease-in-out infinite;
+  }
+  .aurora-ion {
+    position: absolute;
+    inset: -20%;
+    pointer-events: none;
+    filter: blur(70px);
+    opacity: 0.45;
+    background:
+      radial-gradient(35% 45% at 70% 20%, hsl(var(--ion) / 0.4), transparent 70%),
+      radial-gradient(30% 40% at 20% 70%, hsl(210 80% 45% / 0.25), transparent 70%);
+    animation: aurora-drift 22s ease-in-out infinite reverse;
+  }
+
+  .vignette {
+    background: radial-gradient(120% 90% at 50% 0%, transparent 40%, hsl(var(--bg)) 100%);
+  }
+
+  /* ── buttons ──────────────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md font-medium transition-all duration-200;
+  }
   .btn-ember {
     @apply btn px-5 py-3 text-sm text-carbon-950;
     background: linear-gradient(180deg, hsl(var(--ember-soft)), hsl(var(--ember)));
     box-shadow:
       inset 0 1px 0 hsl(40 100% 90% / 0.4),
       0 1px 2px hsl(20 80% 10% / 0.4),
-      0 8px 16px -8px hsl(18 90% 40% / 0.5);
+      0 10px 24px -10px hsl(18 90% 45% / 0.6);
     font-weight: 600;
   }
   .btn-ember:hover {
-    background: linear-gradient(180deg, hsl(20 92% 60%), hsl(18 92% 52%));
+    background: linear-gradient(180deg, hsl(20 92% 62%), hsl(18 92% 53%));
+    box-shadow:
+      inset 0 1px 0 hsl(40 100% 90% / 0.5),
+      0 1px 2px hsl(20 80% 10% / 0.4),
+      0 14px 30px -10px hsl(18 90% 50% / 0.7);
   }
-
-  /* secondary = brushed steel */
   .btn-steel {
     @apply btn px-5 py-3 text-sm text-ink;
     background: linear-gradient(180deg, hsl(var(--raised)), hsl(var(--surface)));
@@ -166,15 +231,17 @@
   /* in-view reveal toggled by an IntersectionObserver class, not a motion lib */
   .reveal {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(20px);
     transition:
-      opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
-      transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
-    will-change: opacity, transform;
+      opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+      filter 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+    filter: blur(6px);
   }
   .reveal.in {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 }
 
@@ -183,20 +250,66 @@
     text-wrap: balance;
   }
   .mask-x {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 9%,
-      #000 91%,
-      transparent
-    );
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 9%,
-      #000 91%,
-      transparent
-    );
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+  }
+  .mask-b {
+    -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent);
+    mask-image: linear-gradient(to bottom, #000 70%, transparent);
+  }
+}
+
+@keyframes beam-rotate {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+/* tracing beam rail (Aceternity idea) */
+.trace-rail {
+  position: absolute;
+  width: 1px;
+  background: hsl(var(--line));
+  overflow: visible;
+}
+.trace-rail::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 90px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    hsl(var(--ion)),
+    hsl(var(--ember)),
+    transparent
+  );
+  animation: trace 5s linear infinite;
+}
+@keyframes trace {
+  from {
+    top: -90px;
+  }
+  to {
+    top: 100%;
+  }
+}
+
+@keyframes particle-move {
+  from {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  to {
+    offset-distance: 100%;
+    opacity: 0;
   }
 }
 
@@ -212,5 +325,6 @@
   .reveal {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 }

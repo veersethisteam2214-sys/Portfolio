@@ -5,6 +5,7 @@ import { Mail, MessageCircle, ArrowUpRight, MapPin } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Globe } from "@/components/ui/globe";
+import { Sparkles } from "@/components/ui/sparkles";
 import { site } from "@/lib/site";
 
 export function Contact() {
@@ -34,8 +35,10 @@ export function Contact() {
   );
 
   return (
-    <section id="contact" className="relative border-t border-line py-24 sm:py-32">
-      <div className="blueprint-fine pointer-events-none absolute inset-0 opacity-[0.3] [mask-image:radial-gradient(70%_60%_at_50%_50%,#000,transparent_85%)]" />
+    <section id="contact" className="relative overflow-hidden border-t border-line py-24 sm:py-32">
+      <div className="aurora-ion opacity-40" />
+      <Sparkles count={22} color="hsl(200 90% 80%)" className="opacity-60" />
+      <div className="blueprint-fine pointer-events-none absolute inset-0 opacity-[0.18] [mask-image:radial-gradient(70%_60%_at_50%_50%,#000,transparent_85%)]" />
       <div className="wrap relative grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
         {/* left */}
         <div>

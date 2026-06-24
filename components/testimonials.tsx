@@ -2,15 +2,15 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Quote, ArrowLeft, ArrowRight, Star } from "lucide-react";
+import { Quote, Star, ArrowLeft, ArrowRight } from "lucide-react";
 import { SectionHead } from "@/components/ui/section-head";
 import { Reveal } from "@/components/ui/reveal";
 import { testimonials } from "@/lib/site";
 
 const variants = {
-  enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 40 : -40 }),
-  center: { opacity: 1, x: 0 },
-  exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -40 : 40 }),
+  enter: (d: number) => ({ opacity: 0, y: d > 0 ? 20 : -20 }),
+  center: { opacity: 1, y: 0 },
+  exit: (d: number) => ({ opacity: 0, y: d > 0 ? -20 : 20 }),
 };
 
 export function Testimonials() {
@@ -25,77 +25,105 @@ export function Testimonials() {
 
   useEffect(() => {
     if (paused) return;
-    const t = setInterval(() => setState(([cur]) => [(cur + 1) % n, 1]), 5500);
+    const t = setInterval(() => setState(([c]) => [(c + 1) % n, 1]), 5000);
     return () => clearInterval(t);
   }, [paused, n]);
 
   const active = testimonials[i];
 
   return (
-    <section className="relative border-t border-line py-24 sm:py-32">
-      <div className="wrap">
+    <section className="relative overflow-hidden border-t border-line py-24 sm:py-32">
+      <div className="aurora-ion opacity-30" />
+      <div className="wrap relative">
         <SectionHead
           num="*"
           label="Signal"
-          title={<>The people who&apos;d hire me again.</>}
+          title={<>Client signal, intercepted live.</>}
+          description="Real words from people I've built for. The system below cycles through them — or pick a node to lock on."
         />
 
         <div
-          className="mt-14 grid grid-cols-1 gap-px overflow-hidden border border-line bg-line lg:grid-cols-12"
+          className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-[20px] border border-line bg-line lg:grid-cols-2"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          {/* selector rail */}
-          <div className="flex flex-col bg-surface lg:col-span-5">
-            {testimonials.map((t, idx) => {
-              const on = idx === i;
-              return (
-                <button
-                  key={t.name}
-                  onClick={() => go(idx)}
-                  className={`group relative flex items-center gap-4 border-b border-line px-6 py-5 text-left transition-colors last:border-b-0 ${
-                    on ? "bg-raised" : "hover:bg-raised/50"
-                  }`}
-                >
-                  {on && <span className="absolute inset-y-0 left-0 w-0.5 bg-ember" />}
-                  <span
-                    className={`grid h-10 w-10 shrink-0 place-items-center rounded-md border font-mono text-xs ${
-                      on
-                        ? "border-ember/40 bg-bg text-ember"
-                        : "border-line bg-bg text-faint"
-                    }`}
+          {/* ── radar scope ── */}
+          <div className="relative flex items-center justify-center bg-surface p-8 sm:p-10">
+            <div className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-widest text-ion/80">
+              ◦ radar // {n} nodes tracked
+            </div>
+            <div className="relative aspect-square w-full max-w-[360px]">
+              {/* concentric rings */}
+              {[100, 72, 44].map((s) => (
+                <span
+                  key={s}
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-ion/20"
+                  style={{ width: `${s}%`, height: `${s}%` }}
+                />
+              ))}
+              {/* crosshair */}
+              <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-ion/10" />
+              <span className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-ion/10" />
+              {/* rotating sweep */}
+              <div
+                className="absolute inset-0 animate-radar-sweep rounded-[50%]"
+                style={{
+                  background:
+                    "conic-gradient(from 0deg, transparent 0deg, transparent 300deg, hsl(var(--ion) / 0.35) 350deg, hsl(var(--ion) / 0.6) 360deg)",
+                  maskImage: "radial-gradient(#000 60%, transparent 71%)",
+                  WebkitMaskImage: "radial-gradient(#000 60%, transparent 71%)",
+                }}
+              />
+              {/* center */}
+              <span className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-ion" />
+
+              {/* blips */}
+              {testimonials.map((t, idx) => {
+                const ang = (idx / n) * Math.PI * 2 - Math.PI / 2;
+                const rad = 26 + (idx % 3) * 9;
+                const x = 50 + Math.cos(ang) * rad;
+                const y = 50 + Math.sin(ang) * rad;
+                const on = idx === i;
+                return (
+                  <button
+                    key={t.name}
+                    onClick={() => go(idx)}
+                    aria-label={t.name}
+                    className="group/blip absolute -translate-x-1/2 -translate-y-1/2"
+                    style={{ left: `${x}%`, top: `${y}%` }}
                   >
-                    {t.initials}
-                  </span>
-                  <span className="min-w-0">
                     <span
-                      className={`block truncate text-sm font-medium ${
-                        on ? "text-ink" : "text-faint group-hover:text-ink"
+                      className={`grid place-items-center rounded-[50%] font-mono transition-all ${
+                        on
+                          ? "h-9 w-9 border border-ember bg-ember/20 text-[10px] text-ember"
+                          : "h-7 w-7 border border-line bg-bg text-[9px] text-faint hover:border-ion/50 hover:text-ion"
                       }`}
                     >
-                      {t.name}
+                      {t.initials}
                     </span>
-                    <span className="block truncate text-xs text-faint">
-                      {t.title}
-                    </span>
-                  </span>
-                </button>
-              );
-            })}
+                    {on && (
+                      <span className="absolute inset-0 animate-pulse-ring rounded-[50%] border border-ember/50" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          {/* active quote */}
-          <div className="grain relative flex min-h-[22rem] flex-col justify-between bg-surface p-8 sm:p-10 lg:col-span-7">
-            <div className="flex items-center justify-between">
-              <Quote className="h-9 w-9 text-ember" strokeWidth={1.5} />
-              <div className="flex">
-                {Array.from({ length: 5 }).map((_, s) => (
-                  <Star key={s} className="h-4 w-4 fill-ember text-ember" />
-                ))}
-              </div>
+          {/* ── intercepted signal ── */}
+          <div className="grain relative flex min-h-[24rem] flex-col justify-between bg-surface p-8 sm:p-10">
+            <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-faint">
+              <span className="flex items-center gap-2 text-ion">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-[50%] bg-ion" />
+                signal locked
+              </span>
+              <span>
+                {String(i + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
+              </span>
             </div>
 
             <div className="relative flex-1 py-8">
+              <Quote className="mb-5 h-8 w-8 text-ember" strokeWidth={1.5} />
               <AnimatePresence mode="wait" custom={dir}>
                 <motion.blockquote
                   key={i}
@@ -113,28 +141,29 @@ export function Testimonials() {
             </div>
 
             <div className="flex items-end justify-between border-t border-line pt-6">
-              <div>
-                <div className="text-sm font-semibold text-ink">{active.name}</div>
-                <div className="text-sm text-faint">{active.title}</div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="mr-2 font-mono text-xs text-faint">
-                  {String(i + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
+              <div className="flex items-center gap-3">
+                <span className="grid h-11 w-11 place-items-center rounded-md border border-line bg-bg font-mono text-sm text-ink">
+                  {active.initials}
                 </span>
-                <button
-                  aria-label="Previous"
-                  onClick={() => go(i - 1)}
-                  className="btn-steel grid h-9 w-9 place-items-center !px-0"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                </button>
-                <button
-                  aria-label="Next"
-                  onClick={() => go(i + 1)}
-                  className="btn-steel grid h-9 w-9 place-items-center !px-0"
-                >
-                  <ArrowRight className="h-4 w-4" />
-                </button>
+                <div>
+                  <div className="text-sm font-semibold text-ink">{active.name}</div>
+                  <div className="text-sm text-faint">{active.title}</div>
+                </div>
+              </div>
+              <div className="flex flex-col items-end gap-2">
+                <div className="flex">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <Star key={s} className="h-3.5 w-3.5 fill-ember text-ember" />
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <button aria-label="Previous" onClick={() => go(i - 1)} className="btn-steel grid h-8 w-8 place-items-center !rounded-md !px-0">
+                    <ArrowLeft className="h-4 w-4" />
+                  </button>
+                  <button aria-label="Next" onClick={() => go(i + 1)} className="btn-steel grid h-8 w-8 place-items-center !rounded-md !px-0">
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
