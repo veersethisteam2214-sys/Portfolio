@@ -52,6 +52,10 @@ export function Testimonials() {
             <div className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-widest text-ion/80">
               ◦ radar // {n} nodes tracked
             </div>
+            <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-faint/70">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-[50%] bg-ember" />
+              tracking · {active.name}
+            </div>
             <div className="relative aspect-square w-full max-w-[360px]">
               {/* concentric rings */}
               {[100, 72, 44].map((s) => (

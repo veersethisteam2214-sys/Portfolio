@@ -42,7 +42,7 @@ export function About() {
           </Reveal>
 
           <Reveal delay={60}>
-            <h2 className="mt-5 font-display text-3xl font-bold leading-[1.05] tracking-tightest text-ink sm:text-4xl lg:text-[2.9rem]">
+            <h2 className="mt-6 font-display text-[2rem] font-bold leading-[1.02] tracking-tightest text-ink sm:text-[2.6rem] lg:text-[3.1rem]">
               I&apos;m {site.name}. I&apos;d rather build the thing than talk about it.
             </h2>
           </Reveal>
@@ -70,10 +70,30 @@ export function About() {
           </Reveal>
 
           <Reveal delay={200}>
-            <a href="#contact" className="btn-ember group mt-8 w-fit">
-              Work with me
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
+            <div className="mt-8 flex flex-wrap items-center gap-5">
+              <a href="#contact" className="btn-ember group w-fit">
+                Work with me
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+              {/* signature */}
+              <span className="relative font-display text-2xl font-semibold italic text-ink/80">
+                {site.name}
+                <svg
+                  className="absolute -bottom-1.5 left-0 w-full"
+                  height="7"
+                  viewBox="0 0 160 7"
+                  fill="none"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M1 4.5C30 1.5 70 1.5 99 4 128 6 150 3.5 159 2"
+                    stroke="hsl(18 90% 55%)"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
+            </div>
           </Reveal>
         </div>
       </div>

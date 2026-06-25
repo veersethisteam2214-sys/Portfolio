@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { navLinks, site } from "@/lib/site";
 import { Magnetic } from "@/components/ui/magnetic";
@@ -70,7 +71,11 @@ export function Navbar() {
                 }`}
               >
                 {on && (
-                  <span className="absolute inset-0 -z-10 rounded-lg border border-line bg-raised/80" />
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 -z-10 rounded-lg border border-line bg-raised/80"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  />
                 )}
                 {l.label}
               </a>

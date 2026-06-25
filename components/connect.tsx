@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import {
   MessageCircle,
   Mail,
@@ -19,10 +19,10 @@ const Node = forwardRef<
   HTMLDivElement,
   { children: React.ReactNode; label?: string; right?: boolean }
 >(({ children, label, right }, ref) => (
-  <div className={`flex items-center gap-3 ${right ? "flex-row-reverse" : ""}`}>
+  <div className={`flex items-center gap-2.5 ${right ? "flex-row-reverse" : ""}`}>
     <div
       ref={ref}
-      className="glass-rim z-10 grid h-12 w-12 place-items-center rounded-lg bg-surface text-ink"
+      className="glass-rim z-10 grid h-10 w-10 place-items-center rounded-lg bg-surface text-ink sm:h-12 sm:w-12"
     >
       {children}
     </div>
@@ -36,6 +36,7 @@ Node.displayName = "Node";
 export function Connect() {
   const container = useRef<HTMLDivElement>(null);
   const hub = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(false);
 
   const wa = useRef<HTMLDivElement>(null);
   const mail = useRef<HTMLDivElement>(null);
@@ -48,9 +49,18 @@ export function Connect() {
   const ins = [wa, mail, shop, sheet];
   const outs = [cal, report, notify];
 
+  useEffect(() => {
+    const el = container.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setActive(e.isIntersecting), {
+      rootMargin: "0px 0px -10% 0px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section className="relative overflow-hidden border-t border-line py-24 sm:py-32">
-      {/* ion-tinted "lab" background */}
       <div className="aurora-ion" />
       <div className="blueprint pointer-events-none absolute inset-0 opacity-[0.25] [mask-image:radial-gradient(80%_70%_at_50%_50%,#000,transparent_85%)]" />
 
@@ -65,30 +75,46 @@ export function Connect() {
         <Reveal>
           <div
             ref={container}
-            className="beam-border panel relative mt-14 grid grid-cols-3 items-stretch gap-6 overflow-hidden rounded-[20px] p-7 sm:p-12"
+            className="beam-border panel relative mt-14 grid grid-cols-3 items-stretch gap-3 overflow-hidden rounded-[20px] p-5 sm:gap-6 sm:p-12"
           >
             <div className="blueprint-fine pointer-events-none absolute inset-0 opacity-[0.2]" />
 
+            {/* HUD corner brackets */}
+            {[
+              "left-3 top-3 border-l border-t",
+              "right-3 top-3 border-r border-t",
+              "left-3 bottom-3 border-l border-b",
+              "right-3 bottom-3 border-r border-b",
+            ].map((c) => (
+              <span key={c} className={`pointer-events-none absolute h-4 w-4 border-ion/40 ${c}`} />
+            ))}
+            <span className="absolute left-1/2 top-3 -translate-x-1/2 font-mono text-[9px] uppercase tracking-[0.3em] text-ion/60">
+              system online
+            </span>
+
             {/* inputs */}
-            <div className="relative z-10 flex flex-col justify-between gap-6">
-              <Node ref={wa} label="WhatsApp"><MessageCircle className="h-5 w-5" strokeWidth={1.5} /></Node>
-              <Node ref={mail} label="Email"><Mail className="h-5 w-5" strokeWidth={1.5} /></Node>
-              <Node ref={shop} label="Store"><ShoppingBag className="h-5 w-5" strokeWidth={1.5} /></Node>
-              <Node ref={sheet} label="Sheets / CRM"><Table2 className="h-5 w-5" strokeWidth={1.5} /></Node>
+            <div className="relative z-10 flex flex-col justify-center gap-5 sm:gap-6">
+              <Node ref={wa} label="WhatsApp"><MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.5} /></Node>
+              <Node ref={mail} label="Email"><Mail className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.5} /></Node>
+              <Node ref={shop} label="Store"><ShoppingBag className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.5} /></Node>
+              <Node ref={sheet} label="Sheets / CRM"><Table2 className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.5} /></Node>
             </div>
 
             {/* core = profile pic */}
             <div className="relative z-10 flex items-center justify-center">
               <div className="relative">
-                {/* expanding pulse rings */}
-                <span className="absolute inset-0 animate-pulse-ring rounded-[50%] border border-ion/40" />
-                <span
-                  className="absolute inset-0 animate-pulse-ring rounded-[50%] border border-ember/40"
-                  style={{ animationDelay: "1.5s" }}
-                />
+                {active && (
+                  <>
+                    <span className="absolute inset-0 animate-pulse-ring rounded-[50%] border border-ion/40" />
+                    <span
+                      className="absolute inset-0 animate-pulse-ring rounded-[50%] border border-ember/40"
+                      style={{ animationDelay: "1.5s" }}
+                    />
+                  </>
+                )}
                 <div
                   ref={hub}
-                  className="beam-border relative grid h-24 w-24 place-items-center rounded-[50%] bg-bg p-1.5"
+                  className="beam-border relative grid h-16 w-16 place-items-center rounded-[50%] bg-bg p-1 sm:h-24 sm:w-24 sm:p-1.5"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -101,10 +127,10 @@ export function Connect() {
             </div>
 
             {/* outputs */}
-            <div className="relative z-10 flex flex-col items-end justify-between gap-6">
-              <Node ref={cal} right><CalendarCheck className="h-5 w-5 text-ember" strokeWidth={1.5} /></Node>
-              <Node ref={report} right><FileText className="h-5 w-5 text-ember" strokeWidth={1.5} /></Node>
-              <Node ref={notify} right><BellRing className="h-5 w-5 text-ember" strokeWidth={1.5} /></Node>
+            <div className="relative z-10 flex flex-col items-end justify-center gap-5 sm:gap-6">
+              <Node ref={cal} right label="Meetings booked"><CalendarCheck className="h-4 w-4 text-ember sm:h-5 sm:w-5" strokeWidth={1.5} /></Node>
+              <Node ref={report} right label="Reports sent"><FileText className="h-4 w-4 text-ember sm:h-5 sm:w-5" strokeWidth={1.5} /></Node>
+              <Node ref={notify} right label="Alerts fired"><BellRing className="h-4 w-4 text-ember sm:h-5 sm:w-5" strokeWidth={1.5} /></Node>
             </div>
 
             {/* beams in: ion energy */}
@@ -114,6 +140,7 @@ export function Connect() {
                 containerRef={container}
                 fromRef={r}
                 toRef={hub}
+                active={active}
                 duration={4 + i * 0.5}
                 curvature={i % 2 === 0 ? 16 : -16}
                 gradientStartColor="#38bdf8"
@@ -129,6 +156,7 @@ export function Connect() {
                 containerRef={container}
                 fromRef={hub}
                 toRef={r}
+                active={active}
                 duration={3.6 + i * 0.5}
                 curvature={i % 2 === 0 ? -16 : 16}
                 gradientStartColor="#ef6a2a"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { site } from "@/lib/site";
 
 /**
@@ -13,12 +14,14 @@ export function Portrait() {
   return (
     <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-raised">
       {ok ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src="/veer.jpg"
           alt={`${site.name} — ${site.role}`}
+          fill
+          priority
+          sizes="(max-width: 1024px) 90vw, 480px"
           onError={() => setOk(false)}
-          className="h-full w-full object-cover object-top grayscale contrast-[1.05] transition-all duration-700 hover:grayscale-0"
+          className="object-cover object-top grayscale contrast-[1.05] transition-all duration-700 hover:grayscale-0"
         />
       ) : (
         <div className="grid h-full w-full place-items-center">

@@ -3,6 +3,51 @@ import { Reveal } from "@/components/ui/reveal";
 import { SectionHead } from "@/components/ui/section-head";
 import { projects } from "@/lib/site";
 
+// subtle on-brand gradients per project (warm/cool over graphite, no purple)
+const grads = [
+  "from-ember/20 via-surface to-surface",
+  "from-ion/20 via-surface to-surface",
+  "from-ember/15 via-surface to-raised",
+  "from-ion/15 via-surface to-raised",
+  "from-ember/20 via-raised to-surface",
+];
+
+function Thumb({
+  initials,
+  category,
+  grad,
+}: {
+  initials: string;
+  category: string;
+  grad: string;
+}) {
+  return (
+    <div className="elevate elevate-hover overflow-hidden rounded-lg">
+      {/* browser chrome */}
+      <div className="flex items-center gap-1.5 border-b border-line/80 bg-bg/60 px-3 py-2">
+        <span className="h-2 w-2 rounded-[50%] bg-carbon-600" />
+        <span className="h-2 w-2 rounded-[50%] bg-carbon-600" />
+        <span className="h-2 w-2 rounded-[50%] bg-carbon-600" />
+        <span className="ml-2 truncate font-mono text-[9px] text-faint/60">
+          {category.toLowerCase().replace(/[^a-z]+/g, "")}.app
+        </span>
+      </div>
+      {/* faux UI */}
+      <div className={`relative aspect-[16/9] bg-gradient-to-br ${grad}`}>
+        <div className="absolute inset-0 blueprint-fine opacity-20" />
+        <span className="absolute right-3 top-3 font-display text-4xl font-extrabold tracking-tightest text-ink/10">
+          {initials}
+        </span>
+        <div className="absolute inset-x-4 bottom-4 space-y-1.5">
+          <div className="h-1.5 w-1/3 rounded-sm bg-ink/15" />
+          <div className="h-1.5 w-2/3 rounded-sm bg-ink/10" />
+          <div className="h-1.5 w-1/2 rounded-sm bg-ink/10" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Work() {
   return (
     <section id="work" className="relative border-t border-line py-24 sm:py-32">
@@ -30,11 +75,11 @@ export function Work() {
             const flip = i % 2 === 1;
             return (
               <Reveal key={p.index}>
-                <article className="group grid grid-cols-1 items-center gap-6 border-b border-line py-9 md:grid-cols-12 md:gap-8">
-                  {/* metric block */}
+                <article className="group grid grid-cols-1 items-center gap-6 border-b border-line py-10 md:grid-cols-12 md:gap-8">
+                  {/* metric */}
                   <div
                     className={`md:col-span-3 ${
-                      flip ? "md:order-last md:text-right" : ""
+                      flip ? "md:order-3 md:text-right" : "md:order-1"
                     }`}
                   >
                     <div className="font-display text-5xl font-extrabold leading-none tracking-tightest text-ink sm:text-6xl">
@@ -49,13 +94,8 @@ export function Work() {
                     </div>
                   </div>
 
-                  {/* divider */}
-                  <div className="hidden md:col-span-1 md:flex md:justify-center">
-                    <span className="h-16 w-px bg-line transition-colors group-hover:bg-ember/50" />
-                  </div>
-
                   {/* content */}
-                  <div className="md:col-span-8">
+                  <div className="md:order-2 md:col-span-5">
                     <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-wider text-faint">
                       <span className="text-ember">{p.index}</span>
                       <span>{p.category}</span>
@@ -66,9 +106,7 @@ export function Work() {
                       {p.title}
                       <ArrowUpRight className="h-5 w-5 text-faint opacity-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-ember group-hover:opacity-100" />
                     </h3>
-                    <p className="mt-3 max-w-2xl leading-relaxed text-faint">
-                      {p.blurb}
-                    </p>
+                    <p className="mt-3 leading-relaxed text-faint">{p.blurb}</p>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {p.tags.map((t) => (
                         <span key={t} className="tag">
@@ -76,6 +114,15 @@ export function Work() {
                         </span>
                       ))}
                     </div>
+                  </div>
+
+                  {/* thumbnail */}
+                  <div className={`md:col-span-4 ${flip ? "md:order-1" : "md:order-3"}`}>
+                    <Thumb
+                      initials={p.title.slice(0, 2).toUpperCase()}
+                      category={p.title.replace(/[^A-Za-z]+/g, "")}
+                      grad={grads[i % grads.length]}
+                    />
                   </div>
                 </article>
               </Reveal>

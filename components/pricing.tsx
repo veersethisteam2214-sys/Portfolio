@@ -11,7 +11,7 @@ export function Pricing() {
   return (
     <section id="pricing" className="relative overflow-hidden border-t border-line py-24 sm:py-32">
       {/* warm spotlight behind the recommended plan */}
-      <div className="pointer-events-none absolute left-1/2 top-1/3 h-[420px] w-[680px] -translate-x-1/2 rounded-[50%] bg-ember/[0.07] blur-[130px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/3 h-[360px] w-[600px] -translate-x-1/2 rounded-[50%] bg-ember/[0.07] blur-[90px]" />
 
       <div className="wrap relative">
         <SectionHead
@@ -26,15 +26,19 @@ export function Pricing() {
             const Ico = icons[idx] ?? Zap;
             const hot = p.highlighted;
             return (
-              <Reveal key={p.name} delay={idx * 90} className={hot ? "lg:-mt-4 lg:mb-4" : ""}>
+              <Reveal
+                key={p.name}
+                delay={idx * 90}
+                className={hot ? "lg:-mt-5 lg:mb-5 lg:scale-[1.02]" : ""}
+              >
                 <div
                   className={`group relative h-full overflow-hidden rounded-[20px] ${
                     hot ? "beam-border" : ""
                   }`}
                 >
                   <SpotlightCard
-                    className={`h-full rounded-[20px] border ${
-                      hot ? "border-transparent bg-raised" : "border-line bg-surface"
+                    className={`elevate elevate-hover h-full rounded-[20px] ${
+                      hot ? "bg-raised" : ""
                     }`}
                   >
                     <div className="flex h-full flex-col p-8">
