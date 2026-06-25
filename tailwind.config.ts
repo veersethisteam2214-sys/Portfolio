@@ -51,7 +51,7 @@ const config: Config = {
         "2xl": "22px",
       },
       letterSpacing: {
-        tightest: "-0.04em",
+        tightest: "0em",
       },
       keyframes: {
         marquee: {
@@ -87,6 +87,10 @@ const config: Config = {
           "40%": { opacity: "1" },
           "80%, 100%": { transform: "translateY(14px)", opacity: "0" },
         },
+        scan: {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(100%)" },
+        },
       },
       animation: {
         marquee: "marquee var(--duration, 38s) linear infinite",
@@ -97,6 +101,7 @@ const config: Config = {
         float: "float 7s ease-in-out infinite",
         twinkle: "twinkle var(--tw-dur, 4s) ease-in-out infinite",
         "scroll-cue": "scroll-cue 2s ease-in-out infinite",
+        scan: "scan 4.5s linear infinite",
       },
     },
   },

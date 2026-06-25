@@ -5,9 +5,9 @@ import { Reveal } from "@/components/ui/reveal";
 import { Sparkles } from "@/components/ui/sparkles";
 
 const runRows = [
-  { label: "Lead captured from website form", done: true },
-  { label: "Contact enriched & scored", done: true },
-  { label: "Personalised reply drafted by AI", done: true },
+  { label: "Visitor scans work and proof signals", done: true },
+  { label: "Project fit captured from contact flow", done: true },
+  { label: "Reply drafted with scope and next steps", done: true },
   { label: "Follow-up scheduled · meeting booked", done: false },
 ];
 
@@ -63,7 +63,8 @@ export function Hero() {
             <p className="mt-7 max-w-xl text-lg leading-relaxed text-faint">
               I&apos;m {site.name} — a web &amp; automation engineer. I design fast
               websites and AI systems that take the repetitive work off your plate
-              and quietly handle it, around the clock.
+              and quietly handle it, around the clock. This portfolio is built to
+              show that standard before you ever book a call.
             </p>
           </Reveal>
 
@@ -129,6 +130,26 @@ export function Hero() {
                 </div>
 
                 <div className="space-y-2.5 p-4">
+                  <div className="mb-3 rounded-md border border-line bg-bg/70 p-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-faint">
+                        command search
+                      </span>
+                      <kbd className="rounded-sm border border-line bg-raised px-1.5 py-0.5 font-mono text-[10px] text-ion">
+                        K
+                      </kbd>
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {["websites", "AI agents", "automations"].map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-sm bg-ink/[0.05] px-2 py-1 text-xs text-ink/80"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                   {runRows.map((r, i) => (
                     <div
                       key={i}

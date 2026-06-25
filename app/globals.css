@@ -263,6 +263,24 @@
     @apply inline-flex items-center gap-1.5 rounded-sm border border-line bg-ink/[0.02] px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-faint;
   }
 
+  .scan-panel::after {
+    content: "";
+    position: absolute;
+    inset: -60% 0;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      hsl(var(--ion) / 0.08),
+      transparent
+    );
+    transform: translateY(-100%);
+    animation: scan 5s linear infinite;
+  }
+  .scan-panel {
+    position: relative;
+  }
+
   /* in-view reveal toggled by an IntersectionObserver class, not a motion lib */
   .reveal {
     opacity: 0;
@@ -345,6 +363,15 @@
   to {
     offset-distance: 100%;
     opacity: 0;
+  }
+}
+
+@keyframes scan {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
   }
 }
 

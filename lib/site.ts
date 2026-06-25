@@ -86,69 +86,120 @@ export const services: Service[] = [
 export type Project = {
   index: string;
   title: string;
+  type: "Real" | "Concept";
   category: string;
   year: string;
   blurb: string;
   metric: string;
   metricLabel: string;
+  buildTime: string;
+  scope: string;
   tags: string[];
+  proof: string[];
 };
 
 export const projects: Project[] = [
   {
     index: "01",
-    title: "Lumière",
+    title: "Lumiere",
+    type: "Concept",
     category: "E-commerce · Shopify",
     year: "2025",
     blurb:
       "A luxury skincare storefront with a custom product configurator and abandoned-cart recovery that follows up across email and WhatsApp on its own.",
     metric: "+38%",
     metricLabel: "checkout conversion in 6 weeks",
+    buildTime: "10 days",
+    scope: "Storefront, automation, analytics",
     tags: ["Shopify", "Klaviyo", "Automation"],
+    proof: ["Product quiz funnel", "Cart recovery flows", "Analytics event map"],
   },
   {
     index: "02",
     title: "DeskFlow",
+    type: "Concept",
     category: "AI Agent · Support",
     year: "2025",
     blurb:
       "A support agent wired into Gmail and Slack that drafts replies, tags every ticket and escalates only the ones that genuinely need a human.",
     metric: "6h → 9m",
     metricLabel: "average first-response time",
+    buildTime: "8 days",
+    scope: "Agent, triage rules, human handoff",
     tags: ["OpenAI", "Make", "Gmail API"],
+    proof: ["Ticket classifier", "Draft approval queue", "Slack escalation logic"],
   },
   {
     index: "03",
     title: "Khan & Sons",
+    type: "Concept",
     category: "Web · Real Estate",
     year: "2024",
     blurb:
       "A listings site with live search, map view and an inquiry bot that qualifies buyers and books viewings while the office sleeps.",
     metric: "0.6s",
     metricLabel: "load time, down from 2.1s",
+    buildTime: "12 days",
+    scope: "Website, listings CMS, booking bot",
     tags: ["Next.js", "Mapbox", "Chatbot"],
+    proof: ["Filtered listings", "Buyer qualification", "Viewing scheduler"],
   },
   {
     index: "04",
     title: "MealMate",
+    type: "Concept",
     category: "Automation · F&B",
     year: "2024",
     blurb:
       "A WhatsApp ordering line that takes the order, prints it in the kitchen and keeps the customer updated — with zero staff time spent on the phone.",
     metric: "200+",
     metricLabel: "orders a week, fully hands-off",
+    buildTime: "6 days",
+    scope: "WhatsApp intake, kitchen print, status updates",
     tags: ["WhatsApp API", "n8n", "Python"],
+    proof: ["Order parser", "Kitchen tickets", "Customer notifications"],
   },
   {
     index: "05",
     title: "LeadForge",
+    type: "Concept",
     category: "Pipeline · B2B",
     year: "2025",
     blurb:
       "An end-to-end engine that scrapes, verifies and enriches targeted leads, then runs personalised cold outreach and books the replies.",
     metric: "1,400",
     metricLabel: "qualified leads in month one",
+    buildTime: "9 days",
+    scope: "Lead sourcing, enrichment, outreach",
     tags: ["Python", "Apollo", "Instantly"],
+    proof: ["ICP scraper", "Email verification", "Personalized outreach"],
+  },
+];
+
+export const proofHighlights = [
+  {
+    label: "This site",
+    title: "A portfolio that behaves like a product demo",
+    detail:
+      "The page uses scroll reveals, cursor-aware cards, animated workflow beams, a command-style nav, and real contact flows to show the craft instead of only describing it.",
+    metric: "15+",
+    metricLabel: "custom UI interactions",
+  },
+  {
+    label: "Automation",
+    title: "Systems thinking is built into the storytelling",
+    detail:
+      "Services, projects, pricing, and contact all point to the same offer: websites that sell and automations that remove repetitive work.",
+    metric: "24/7",
+    metricLabel: "positioned around running systems",
+  },
+  {
+    label: "Future proof",
+    title: "Real work can replace concept work without a redesign",
+    detail:
+      "Project data, testimonials, pricing, stack, and FAQs live in one editable source file so the portfolio can grow as more verified work is added.",
+    metric: "1",
+    metricLabel: "content source of truth",
   },
 ];
 
@@ -317,9 +368,9 @@ export const faqs = [
 
 export const navLinks = [
   { label: "Services", href: "#services", num: "01" },
-  { label: "Work", href: "#work", num: "02" },
-  { label: "Process", href: "#process", num: "03" },
-  { label: "About", href: "#about", num: "04" },
-  { label: "Pricing", href: "#pricing", num: "05" },
-  { label: "FAQ", href: "#faq", num: "06" },
+  { label: "Proof", href: "#proof", num: "02" },
+  { label: "Work", href: "#work", num: "03" },
+  { label: "Process", href: "#process", num: "04" },
+  { label: "About", href: "#about", num: "05" },
+  { label: "Pricing", href: "#pricing", num: "06" },
 ];

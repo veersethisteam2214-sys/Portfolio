@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useScroll,
@@ -33,6 +33,7 @@ function Word({
 
 export function Statement() {
   const ref = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -41,17 +42,22 @@ export function Statement() {
 
   const words = TEXT.split(" ");
   const accentFrom = words.length - 4; // light the closing phrase
+  const animateWords = mounted && !reduce;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <section
       ref={ref}
       className="relative border-t border-line"
-      style={{ height: reduce ? "auto" : "190vh" }}
+      style={{ height: animateWords ? "190vh" : "auto" }}
     >
       {/* near-monochrome calm + faint center glow */}
       <div
         className={`${
-          reduce ? "relative" : "sticky top-0 flex h-screen items-center"
+          animateWords ? "sticky top-0 flex h-screen items-center" : "relative"
         } overflow-hidden`}
       >
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[360px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-ember/[0.06] blur-[90px]" />
@@ -60,18 +66,18 @@ export function Statement() {
             <span className="kicker">[ — ] &nbsp; Why it matters</span>
           </p>
           <p className="mx-auto max-w-5xl text-center font-display text-3xl font-bold leading-[1.12] tracking-tightest text-ink sm:text-5xl lg:text-[3.6rem] lg:leading-[1.08]">
-            {reduce
-              ? TEXT
-              : words.map((w, i) => (
-                  <Word
-                    key={i}
-                    progress={scrollYProgress}
-                    range={[i / words.length, (i + 1) / words.length]}
-                    accent={i >= accentFrom}
-                  >
-                    {w}
-                  </Word>
-                ))}
+            {animateWords
+              ? words.map((w, i) => (
+                <Word
+                  key={i}
+                  progress={scrollYProgress}
+                  range={[i / words.length, (i + 1) / words.length]}
+                  accent={i >= accentFrom}
+                >
+                  {w}
+                </Word>
+              ))
+              : TEXT}
           </p>
         </div>
       </div>

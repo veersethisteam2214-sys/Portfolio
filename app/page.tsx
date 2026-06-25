@@ -3,6 +3,7 @@ import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
 import { StackStrip } from "@/components/stack-strip";
 import { Services } from "@/components/services";
+import { Proof } from "@/components/proof";
 import { Connect } from "@/components/connect";
 import { Work } from "@/components/work";
 import { Statement } from "@/components/statement";
@@ -23,6 +24,7 @@ export default function Home() {
         <Hero />
         <StackStrip />
         <Services />
+        <Proof />
         <Connect />
         <Work />
         <Statement />
