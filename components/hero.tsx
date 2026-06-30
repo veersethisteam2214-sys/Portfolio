@@ -1,15 +1,9 @@
-import { ArrowRight, Check, Star, Activity } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import { site, stats } from "@/lib/site";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Reveal } from "@/components/ui/reveal";
 import { Sparkles } from "@/components/ui/sparkles";
-
-const runRows = [
-  { label: "Visitor scans work and proof signals", done: true },
-  { label: "Project fit captured from contact flow", done: true },
-  { label: "Reply drafted with scope and next steps", done: true },
-  { label: "Follow-up scheduled · meeting booked", done: false },
-];
+import { SystemsCockpit } from "@/components/systems-cockpit";
 
 export function Hero() {
   return (
@@ -105,106 +99,9 @@ export function Hero() {
           </Reveal>
         </div>
 
-        {/* RIGHT — liquid-glass automation console */}
+        {/* RIGHT — signature systems cockpit */}
         <Reveal delay={180}>
-          <div className="relative animate-float">
-            <div className="beam-border glass-rim grain relative rounded-[20px] p-2">
-              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[20px]">
-                <div className="absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 animate-sheen bg-gradient-to-r from-transparent via-ink/[0.07] to-transparent" />
-              </div>
-
-              <div className="panel rounded-xl">
-                <div className="flex items-center justify-between border-b border-line px-4 py-3">
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-[50%] bg-carbon-600" />
-                    <span className="h-2.5 w-2.5 rounded-[50%] bg-carbon-600" />
-                    <span className="h-2.5 w-2.5 rounded-[50%] bg-ember/70" />
-                  </div>
-                  <span className="font-mono text-[11px] tracking-wider text-faint">
-                    automation.run
-                  </span>
-                  <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-ion">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-[50%] bg-ion" />
-                    live
-                  </span>
-                </div>
-
-                <div className="space-y-2.5 p-4">
-                  <div className="mb-3 rounded-md border border-line bg-bg/70 p-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="font-mono text-[10px] uppercase tracking-wider text-faint">
-                        command search
-                      </span>
-                      <kbd className="rounded-sm border border-line bg-raised px-1.5 py-0.5 font-mono text-[10px] text-ion">
-                        K
-                      </kbd>
-                    </div>
-                    <div className="mt-2 flex flex-wrap gap-1.5">
-                      {["websites", "AI agents", "automations"].map((item) => (
-                        <span
-                          key={item}
-                          className="rounded-sm bg-ink/[0.05] px-2 py-1 text-xs text-ink/80"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  {runRows.map((r, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3 rounded-md border border-line bg-bg/60 px-3 py-2.5"
-                    >
-                      <span
-                        className={`grid h-5 w-5 shrink-0 place-items-center rounded-sm border ${
-                          r.done
-                            ? "border-ember/40 bg-ember/15 text-ember"
-                            : "border-ion/40 bg-ion/10 text-ion"
-                        }`}
-                      >
-                        {r.done ? (
-                          <Check className="h-3 w-3" />
-                        ) : (
-                          <span className="h-1.5 w-1.5 animate-pulse rounded-[50%] bg-ion" />
-                        )}
-                      </span>
-                      <span className="font-mono text-[10px] text-faint/60">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="text-sm text-ink/90">{r.label}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* throughput readout */}
-                <div className="flex items-center gap-3 border-t border-line px-4 py-3">
-                  <Activity className="h-4 w-4 text-ion" />
-                  <div className="h-1.5 flex-1 overflow-hidden rounded-sm bg-bg">
-                    <div className="h-full w-[78%] rounded-sm bg-gradient-to-r from-ion to-ember" />
-                  </div>
-                  <span className="font-mono text-[10px] text-faint">78% load</span>
-                </div>
-
-                <div className="flex items-center justify-between border-t border-line px-4 py-3.5">
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-faint">
-                    Hours saved this week
-                  </span>
-                  <span className="font-display text-xl font-bold text-ink">
-                    41<span className="text-ember">h</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-3 flex items-center justify-between px-1">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-faint/70">
-                fig. 01 — a live client workflow
-              </span>
-              <span className="font-mono text-[10px] tracking-wider text-faint/70">
-                {site.location.split("·")[0].trim()}
-              </span>
-            </div>
-          </div>
+          <SystemsCockpit />
         </Reveal>
       </div>
 

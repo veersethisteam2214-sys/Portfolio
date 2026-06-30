@@ -20,7 +20,7 @@ export default function Home() {
     <>
       <ScrollProgress />
       <Navbar />
-      <main>
+      <main id="main">
         <Hero />
         <StackStrip />
         <Services />

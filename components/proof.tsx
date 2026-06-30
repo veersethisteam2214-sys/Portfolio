@@ -1,4 +1,13 @@
-import { ArrowRight, Command, Gauge, Layers3, MousePointer2, Workflow } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  Command,
+  Gauge,
+  Layers3,
+  MousePointer2,
+  Radio,
+  Workflow,
+} from "lucide-react";
 import { proofHighlights } from "@/lib/site";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHead } from "@/components/ui/section-head";
@@ -18,6 +27,12 @@ const checks = [
   "Contact routes wired for email and WhatsApp",
 ];
 
+const auditRows = [
+  { label: "Hero communicates the offer", score: "clear", width: "92%" },
+  { label: "Visitor sees proof before pricing", score: "strong", width: "84%" },
+  { label: "Lead path is visible", score: "wired", width: "76%" },
+];
+
 export function Proof() {
   return (
     <section id="proof" className="relative overflow-hidden border-t border-line py-24 sm:py-32">
@@ -25,7 +40,7 @@ export function Proof() {
       <div className="blueprint pointer-events-none absolute inset-0 opacity-[0.18] [mask-image:linear-gradient(to_bottom,#000,transparent_82%)]" />
 
       <div className="wrap relative">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-end">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.84fr_1.16fr] lg:items-end">
           <SectionHead
             num="02"
             label="Website as proof"
@@ -44,22 +59,54 @@ export function Proof() {
                     </span>
                   </div>
                   <span className="rounded-sm border border-line bg-bg/70 px-2 py-1 font-mono text-[10px] text-faint">
-                    Press K
+                    live audit
                   </span>
                 </div>
-                <div className="grid gap-px bg-line sm:grid-cols-4">
-                  {signals.map((signal) => {
-                    const Icon = signal.icon;
-                    return (
-                      <div key={signal.label} className="bg-surface p-4">
-                        <Icon className="h-4 w-4 text-ember" strokeWidth={1.5} />
-                        <div className="mt-4 font-mono text-[10px] uppercase tracking-wider text-faint">
-                          {signal.label}
-                        </div>
-                        <div className="mt-1 text-sm font-medium text-ink">{signal.value}</div>
+                <div className="grid gap-px bg-line lg:grid-cols-[0.82fr_1.18fr]">
+                  <div className="bg-surface p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-mono text-[10px] uppercase tracking-wider text-faint">
+                          conversion checks
+                        </p>
+                        <p className="mt-1 text-sm font-medium text-ink">No claim without a signal.</p>
                       </div>
-                    );
-                  })}
+                      <Radio className="h-4 w-4 text-ion" strokeWidth={1.5} aria-hidden />
+                    </div>
+                    <div className="mt-5 space-y-3">
+                      {auditRows.map((row) => (
+                        <div key={row.label}>
+                          <div className="mb-1.5 flex items-center justify-between gap-3">
+                            <span className="text-xs text-faint">{row.label}</span>
+                            <span className="font-mono text-[9px] uppercase tracking-wider text-ember">
+                              {row.score}
+                            </span>
+                          </div>
+                          <div className="h-1.5 overflow-hidden rounded-sm bg-bg">
+                            <div
+                              className="h-full rounded-sm bg-gradient-to-r from-ion to-ember"
+                              style={{ width: row.width }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="grid gap-px bg-line sm:grid-cols-4">
+                    {signals.map((signal) => {
+                      const Icon = signal.icon;
+                      return (
+                        <div key={signal.label} className="bg-surface p-4">
+                          <Icon className="h-4 w-4 text-ember" strokeWidth={1.5} aria-hidden />
+                          <div className="mt-4 font-mono text-[10px] uppercase tracking-wider text-faint">
+                            {signal.label}
+                          </div>
+                          <div className="mt-1 text-sm font-medium text-ink">{signal.value}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
@@ -86,6 +133,12 @@ export function Proof() {
                     {item.title}
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-faint">{item.detail}</p>
+                  <div className="mt-5 flex items-center gap-2 border-t border-line pt-4 text-sm text-ink/80">
+                    <span className="grid h-5 w-5 place-items-center rounded-sm bg-ion/15 text-ion">
+                      <Check className="h-3 w-3" strokeWidth={1.8} aria-hidden />
+                    </span>
+                    visible, testable, replaceable
+                  </div>
                   <div className="mt-auto pt-6">
                     <a
                       href={idx === 2 ? "#work" : "#contact"}

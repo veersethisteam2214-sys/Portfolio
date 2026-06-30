@@ -122,6 +122,8 @@ export function Contact() {
                 <Field label="Your name">
                   <input
                     required
+                    name="name"
+                    autoComplete="name"
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder="Jane Doe"
@@ -131,7 +133,9 @@ export function Contact() {
                 <Field label="Email">
                   <input
                     required
+                    name="email"
                     type="email"
+                    autoComplete="email"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     placeholder="jane@company.com"
@@ -140,6 +144,7 @@ export function Contact() {
                 </Field>
                 <Field label="Project type">
                   <select
+                    name="project-type"
                     value={form.type}
                     onChange={(e) => setForm({ ...form, type: e.target.value })}
                     className="cinput"
@@ -154,6 +159,7 @@ export function Contact() {
                 </Field>
                 <Field label="Budget">
                   <select
+                    name="budget"
                     value={form.budget}
                     onChange={(e) => setForm({ ...form, budget: e.target.value })}
                     className="cinput"
@@ -169,6 +175,7 @@ export function Contact() {
               <Field label="Tell me about your project" className="mt-4 block">
                 <textarea
                   required
+                  name="message"
                   rows={4}
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}

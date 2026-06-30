@@ -19,6 +19,7 @@ function Thumb({
   project: Project;
   grad: string;
 }) {
+  const modules = project.proof.slice(0, 3);
   return (
     <div className="elevate elevate-hover group/thumb overflow-hidden rounded-lg">
       {/* browser chrome */}
@@ -31,33 +32,68 @@ function Thumb({
         </span>
       </div>
       {/* faux UI */}
-      <div className={`scan-panel relative aspect-[16/10] bg-gradient-to-br ${grad}`}>
+      <div className={`scan-panel relative aspect-[16/11] bg-gradient-to-br ${grad}`}>
         <div className="absolute inset-0 blueprint-fine opacity-20" />
-        <div className="absolute left-4 top-4 flex items-center gap-2">
-          <span className="grid h-7 w-7 place-items-center rounded-md border border-line bg-bg/70 font-mono text-[10px] text-ember">
-            {project.index}
-          </span>
-          <span className="rounded-sm border border-line bg-bg/55 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-faint">
-            {project.type}
-          </span>
-        </div>
-        <span className="absolute right-4 top-4 font-display text-5xl font-extrabold tracking-tightest text-ink/10">
-          {project.metric}
-        </span>
 
-        <div className="absolute inset-x-4 bottom-4">
-          <div className="mb-3 grid grid-cols-3 gap-2">
-            {project.tags.slice(0, 3).map((tag) => (
-              <span key={tag} className="h-8 rounded-md border border-line bg-bg/45 p-2">
-                <span className="block h-1.5 rounded-sm bg-ink/15" />
-                <span className="mt-1.5 block h-1 rounded-sm bg-ink/10" />
-              </span>
-            ))}
-          </div>
-          <div className="space-y-1.5 rounded-md border border-line bg-bg/50 p-3 backdrop-blur-sm">
-            <div className="h-1.5 w-1/3 rounded-sm bg-ember/45" />
-            <div className="h-1.5 w-2/3 rounded-sm bg-ink/12" />
-            <div className="h-1.5 w-1/2 rounded-sm bg-ink/10" />
+        <div className="absolute inset-4 grid grid-cols-[0.72fr_1.28fr] gap-3">
+          <aside className="flex flex-col justify-between rounded-lg border border-line bg-bg/55 p-3 backdrop-blur-sm">
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="grid h-7 w-7 place-items-center rounded-md border border-line bg-bg/70 font-mono text-[10px] text-ember">
+                  {project.index}
+                </span>
+                <span className="rounded-sm border border-line bg-bg/55 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-faint">
+                  {project.type}
+                </span>
+              </div>
+              <div className="mt-5 font-display text-3xl font-extrabold leading-none text-ink/90">
+                {project.metric}
+              </div>
+              <div className="mt-1 h-1.5 w-16 rounded-sm bg-ember/45" />
+            </div>
+
+            <div className="space-y-1.5">
+              {project.tags.slice(0, 3).map((tag) => (
+                <div key={tag} className="rounded-sm border border-line bg-raised/70 px-2 py-1 font-mono text-[8px] uppercase tracking-wider text-faint">
+                  {tag}
+                </div>
+              ))}
+            </div>
+          </aside>
+
+          <div className="flex flex-col gap-3">
+            <div className="rounded-lg border border-line bg-bg/55 p-3 backdrop-blur-sm">
+              <div className="mb-3 flex items-center justify-between">
+                <span className="font-mono text-[9px] uppercase tracking-wider text-faint">
+                  system map
+                </span>
+                <span className="h-1.5 w-1.5 animate-pulse rounded-[50%] bg-ion" />
+              </div>
+              <div className="grid grid-cols-3 items-center gap-2">
+                {modules.map((module, idx) => (
+                  <div key={module} className="relative rounded-md border border-line bg-surface/80 p-2">
+                    <span className="block h-1.5 w-8 rounded-sm bg-ink/15" />
+                    <span className="mt-2 block h-1 w-12 max-w-full rounded-sm bg-ink/10" />
+                    <span className="mt-2 block truncate font-mono text-[7px] uppercase tracking-wider text-faint/70">
+                      {idx + 1}. {module}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid flex-1 grid-cols-5 gap-1.5">
+              {[34, 62, 48, 78, 55].map((height, idx) => (
+                <div key={height} className="flex items-end rounded-md border border-line bg-bg/45 p-1.5">
+                  <span
+                    className={`block w-full rounded-sm ${
+                      idx === 3 ? "bg-ember/70" : "bg-ion/35"
+                    }`}
+                    style={{ height: `${height}%` }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -87,7 +123,22 @@ export function Work() {
           </Reveal>
         </div>
 
-        <div className="relative mt-14 border-t border-line lg:pl-10">
+        <Reveal>
+          <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
+            {[
+              ["Catalog rhythm", "Real-style previews instead of flat screenshots."],
+              ["Outcome first", "Metrics lead the eye before tools and tags."],
+              ["System proof", "Each project shows what actually got wired."],
+            ].map(([title, copy]) => (
+              <div key={title} className="bg-surface p-5">
+                <p className="font-mono text-[10px] uppercase tracking-wider text-ember">{title}</p>
+                <p className="mt-2 text-sm leading-relaxed text-faint">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+
+        <div className="relative mt-10 border-t border-line lg:pl-10">
           <span className="trace-rail bottom-0 left-0 top-0 hidden lg:block" />
           {projects.map((p, i) => {
             const flip = i % 2 === 1;

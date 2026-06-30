@@ -46,6 +46,24 @@
     overflow-x: hidden;
   }
 
+  .skip-link {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    z-index: 9999;
+    transform: translateY(-140%);
+    border: 1px solid hsl(var(--line));
+    border-radius: 8px;
+    background: hsl(var(--bg));
+    color: hsl(var(--ink));
+    padding: 0.65rem 0.85rem;
+    font-size: 0.875rem;
+    transition: transform 0.2s var(--ease-out);
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
   ::selection {
     background: hsl(var(--ember) / 0.25);
     color: hsl(var(--ink));
@@ -281,6 +299,40 @@
     position: relative;
   }
 
+  .mesh-shell {
+    background:
+      linear-gradient(135deg, hsl(var(--ink) / 0.06), transparent 34%),
+      radial-gradient(circle at 20% 20%, hsl(var(--ember) / 0.12), transparent 32%),
+      radial-gradient(circle at 85% 10%, hsl(var(--ion) / 0.12), transparent 34%),
+      hsl(var(--surface));
+  }
+
+  .mesh-shell::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(120deg, hsl(var(--ink) / 0.08) 1px, transparent 1px),
+      linear-gradient(30deg, hsl(var(--line) / 0.5) 1px, transparent 1px);
+    background-size: 72px 72px, 42px 42px;
+    mask-image: radial-gradient(80% 70% at 50% 42%, #000, transparent 82%);
+    opacity: 0.5;
+  }
+
+  .data-lane {
+    position: relative;
+  }
+  .data-lane::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: -35%;
+    width: 35%;
+    background: linear-gradient(to right, transparent, hsl(var(--ion)), transparent);
+    animation: lane-pass 2.4s ease-in-out infinite;
+  }
+
   /* in-view reveal toggled by an IntersectionObserver class, not a motion lib */
   .reveal {
     opacity: 0;
@@ -372,6 +424,15 @@
   }
   to {
     transform: translateY(100%);
+  }
+}
+
+@keyframes lane-pass {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(390%);
   }
 }
 
