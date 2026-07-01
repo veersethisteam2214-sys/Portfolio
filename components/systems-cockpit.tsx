@@ -33,14 +33,14 @@ const metrics = [
 
 export function SystemsCockpit() {
   return (
-    <div className="relative animate-float">
-      <div className="mesh-shell beam-border glass-rim relative overflow-hidden rounded-[20px] p-2">
+    <div className="relative w-full max-w-full animate-float">
+      <div className="mesh-shell beam-border glass-rim relative w-full max-w-full overflow-hidden rounded-[20px] p-2">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -right-24 top-12 h-56 w-56 rounded-[50%] bg-ion/[0.16] blur-3xl" />
           <div className="absolute -bottom-24 left-10 h-56 w-56 rounded-[50%] bg-ember/[0.16] blur-3xl" />
         </div>
 
-        <div className="panel relative overflow-hidden rounded-xl">
+        <div className="panel relative min-w-0 overflow-hidden rounded-xl">
           <div className="scan-panel absolute inset-0 opacity-70" aria-hidden />
           <div className="relative z-10 flex items-center justify-between border-b border-line px-4 py-3">
             <div className="flex items-center gap-1.5">
@@ -58,8 +58,8 @@ export function SystemsCockpit() {
             </div>
           </div>
 
-          <div className="relative z-10 grid gap-px bg-line/80 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="bg-surface/90 p-4">
+          <div className="relative z-10 grid min-w-0 gap-px bg-line/80 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="min-w-0 bg-surface/90 p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-mono text-[10px] uppercase tracking-wider text-faint">
@@ -78,13 +78,13 @@ export function SystemsCockpit() {
                   return (
                     <div
                       key={item.label}
-                      className="group flex items-center gap-3 rounded-lg border border-line bg-bg/60 px-3 py-2.5"
+                      className="group flex min-w-0 items-center gap-3 rounded-lg border border-line bg-bg/60 px-3 py-2.5"
                     >
                       <span className={`grid h-8 w-8 place-items-center rounded-md border border-line bg-raised ${item.tone}`}>
                         <Icon className="h-4 w-4" strokeWidth={1.5} aria-hidden />
                       </span>
-                      <span className="flex-1 text-sm text-ink/90">{item.label}</span>
-                      <span className="data-lane h-px w-12 overflow-hidden rounded-full bg-line" />
+                      <span className="min-w-0 flex-1 text-sm text-ink/90">{item.label}</span>
+                      <span className="data-lane hidden h-px w-12 overflow-hidden rounded-full bg-line sm:block" />
                     </div>
                   );
                 })}
@@ -109,9 +109,9 @@ export function SystemsCockpit() {
               </div>
             </div>
 
-            <div className="relative overflow-hidden bg-bg/80 p-4">
+            <div className="relative min-w-0 overflow-hidden bg-bg/80 p-4">
               <div className="blueprint-fine pointer-events-none absolute inset-0 opacity-25" />
-              <div className="relative grid gap-4">
+              <div className="relative grid min-w-0 gap-4">
                 <div className="rounded-xl border border-line bg-surface/90 p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -128,7 +128,7 @@ export function SystemsCockpit() {
                     <ArrowDownRight className="h-4 w-4 text-faint" strokeWidth={1.5} aria-hidden />
                   </div>
 
-                  <div className="mt-5 grid grid-cols-2 gap-2">
+                  <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
                     {automations.map((item, idx) => (
                       <div key={item} className="rounded-md border border-line bg-bg/55 p-3">
                         <div className="flex items-center gap-2">
@@ -168,7 +168,7 @@ export function SystemsCockpit() {
                     <Workflow className="h-3.5 w-3.5 text-ion" strokeWidth={1.5} aria-hidden />
                     delivery path
                   </div>
-                  <div className="grid grid-cols-4 gap-1.5">
+                  <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
                     {["brief", "prototype", "launch", "automate"].map((step, idx) => (
                       <div key={step} className="relative rounded-md border border-line bg-bg/55 px-2 py-2">
                         <span className="block font-mono text-[9px] uppercase tracking-wider text-faint">

@@ -18,7 +18,7 @@ export function Hero() {
 
       <div className="wrap relative grid grid-cols-1 items-center gap-12 pb-20 pt-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 lg:pb-28">
         {/* LEFT */}
-        <div>
+        <div className="min-w-0">
           <Reveal>
             <div className="flex items-center gap-3">
               <span className="kicker">[ 00 ]</span>
@@ -28,8 +28,9 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={80}>
-            <h1 className="mt-7 font-display text-[2.7rem] font-extrabold leading-[0.98] tracking-tightest text-balance text-ink sm:text-6xl lg:text-[4.4rem]">
-              Built like machines.
+            <h1 className="mt-7 font-display text-[2.45rem] font-extrabold leading-[0.98] tracking-tightest text-ink sm:text-6xl lg:text-[4.4rem]">
+              Built like
+              <br className="sm:hidden" /> machines.
               <br />
               Made to run{" "}
               <span className="relative whitespace-nowrap text-ember">
@@ -54,7 +55,7 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={160}>
-            <p className="mt-7 max-w-xl text-lg leading-relaxed text-faint">
+            <p className="mt-7 max-w-[21rem] text-lg leading-relaxed text-faint sm:max-w-xl">
               I&apos;m {site.name} — a web &amp; automation engineer. I design fast
               websites and AI systems that take the repetitive work off your plate
               and quietly handle it, around the clock. This portfolio is built to
@@ -85,10 +86,10 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={280}>
-            <dl className="mt-12 grid grid-cols-2 gap-px overflow-hidden border border-line bg-line sm:grid-cols-4">
+            <dl className="mt-12 grid max-w-[21.5rem] grid-cols-2 gap-px overflow-hidden border border-line bg-line sm:max-w-none sm:grid-cols-4">
               {stats.map((s) => (
-                <div key={s.label} className="bg-bg/80 px-4 py-5 backdrop-blur-sm">
-                  <dt className="font-display text-2xl font-bold tracking-tight text-ink sm:text-[1.7rem]">
+                <div key={s.label} className="min-w-0 bg-bg/80 px-3 py-5 backdrop-blur-sm sm:px-4">
+                  <dt className="font-display text-[1.45rem] font-bold tracking-tight text-ink sm:text-[1.7rem]">
                     {s.value}
                     <span className="text-ember">{s.suffix}</span>
                   </dt>
@@ -101,7 +102,9 @@ export function Hero() {
 
         {/* RIGHT — signature systems cockpit */}
         <Reveal delay={180}>
-          <SystemsCockpit />
+          <div className="max-w-[21.5rem] min-w-0 sm:max-w-none">
+            <SystemsCockpit />
+          </div>
         </Reveal>
       </div>
 
